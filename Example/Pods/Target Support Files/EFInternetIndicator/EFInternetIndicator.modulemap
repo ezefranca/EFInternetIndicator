@@ -1,0 +1,6 @@
+framework module EFInternetIndicator {
+  umbrella header "EFInternetIndicator-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'EFInternetIndicator'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of EFInternetIndicator.'
+  s.summary          = 'A little Internet status indicator.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,11 +18,11 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+A little swift Internet error status indicator using ReachabilitySwift.
                        DESC
 
   s.homepage         = 'https://github.com/ezefranca/EFInternetIndicator'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  s.screenshots      = 'https://media.giphy.com/media/3Pumvj8kXlsze/giphy.gif'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'ezefranca' => 'ezequiel.santos@btgpactual.com' }
   s.source           = { :git => 'https://github.com/ezefranca/EFInternetIndicator.git', :tag => s.version.to_s }

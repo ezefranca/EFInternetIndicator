@@ -1,0 +1,42 @@
+{
+  "name": "EFInternetIndicator",
+  "version": "0.1.0",
+  "summary": "A short description of EFInternetIndicator.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/ezefranca/EFInternetIndicator",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "ezefranca": "ezequiel.santos@btgpactual.com"
+  },
+  "source": {
+    "git": "https://github.com/ezefranca/EFInternetIndicator.git",
+    "tag": "0.1.0"
+  },
+  "social_media_url": "https://twitter.com/ezefranca",
+  "platforms": {
+    "ios": "9.0"
+  },
+  "public_header_files": "EFInternetIndicator/Classes/**/*.h",
+  "source_files": "EFInternetIndicator/Classes/**/*.{c,h,hh,m,mm,swift}",
+  "subspecs": [
+    {
+      "name": "Network",
+      "dependencies": {
+        "ReachabilitySwift": [
+
+        ]
+      }
+    },
+    {
+      "name": "Interface",
+      "dependencies": {
+        "SwiftMessages": [
+
+        ]
+      }
+    }
+  ]
+}
