@@ -7,19 +7,50 @@
 
 ![](https://media.giphy.com/media/3Pumvj8kXlsze/giphy.gif)
 
+## Requirements
+
+- watchOS 3.0+
+- Xcode 8.0+
+
+## Installation
+
+#### CocoaPods
+You can use [CocoaPods](http://cocoapods.org/) to install `EFInternetIndicator` by adding it to your `Podfile`:
+
+```ruby
+use_frameworks!
+pod 'EFInternetIndicator'
+```
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## Requirements
+## Usage example
 
-## Installation
+To start monitoring internet status in a single UIViewController you just need add the ```InternetStatusIndicable``` protocol and start monitoring with ```startMonitoringInternet()``` 
 
-EFInternetIndicator is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+```swift
 
-```ruby
-pod "EFInternetIndicator"
+import UIKit
+import EFInternetIndicator
+
+class ViewController: UIViewController, InternetStatusIndicable {
+    
+    var internetConnectionIndicator:InternetViewIndicator?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.startMonitoringInternet()
+    }
+}
+
+```
+
+Also, you can customize indicator using custom parameters: 
+
+```swift
+func startMonitoringInternet(backgroundColor: UIColor , message: String, remoteHostName: String)
 ```
 
 ## Author
