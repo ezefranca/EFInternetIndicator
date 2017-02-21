@@ -24,7 +24,7 @@ A little swift Internet error status indicator using ReachabilitySwift.
   s.homepage         = 'https://github.com/ezefranca/EFInternetIndicator'
   s.screenshots      = 'https://media.giphy.com/media/3Pumvj8kXlsze/giphy.gif'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'ezefranca' => 'ezequiel.santos@btgpactual.com' }
+  s.author           = { 'ezefranca' => 'ezequiel.ifsp@gmail.com' }
   s.source           = { :git => 'https://github.com/ezefranca/EFInternetIndicator.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/ezefranca'
 
