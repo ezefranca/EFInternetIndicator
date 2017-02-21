@@ -7,18 +7,15 @@
 //
 
 import UIKit
+import EFInternetIndicator
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, InternetStatusIndicable {
+    
+    var internetConnectionIndicator:InternetViewIndicator?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.startMonitoringInternet()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 }
 

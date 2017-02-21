@@ -2,10 +2,4 @@ use_frameworks!
 
 target 'EFInternetIndicator_Example' do
   pod 'EFInternetIndicator', :path => '../'
-
-  target 'EFInternetIndicator_Tests' do
-    inherit! :search_paths
-
-    
-  end
 end

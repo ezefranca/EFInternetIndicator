@@ -26,17 +26,24 @@ TODO: Add long description of the pod here.
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'ezefranca' => 'ezequiel.santos@btgpactual.com' }
   s.source           = { :git => 'https://github.com/ezefranca/EFInternetIndicator.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.social_media_url = 'https://twitter.com/ezefranca'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
-  s.source_files = 'EFInternetIndicator/Classes/**/*'
+  #s.source_files = 'EFInternetIndicator/Classes/**/*'
   
-  # s.resource_bundles = {
+  #s.resource_bundles = {
   #   'EFInternetIndicator' => ['EFInternetIndicator/Assets/*.png']
-  # }
+  #}
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.public_header_files = 'EFInternetIndicator/Classes/**/*.h'
+  s.source_files = 'EFInternetIndicator/Classes/**/*.{c,h,hh,m,mm,swift}'
+  s.subspec 'Network' do |network|
+  	network.dependency 'ReachabilitySwift'
+  end
+
+  s.subspec 'Interface' do |interface|
+  	interface.dependency 'SwiftMessages'
+  end
+
 end
