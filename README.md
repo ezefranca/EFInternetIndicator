@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/EFInternetIndicator.svg?style=flat)](http://cocoapods.org/pods/EFInternetIndicator)
 [![Platform](https://img.shields.io/cocoapods/p/EFInternetIndicator.svg?style=flat)](http://cocoapods.org/pods/EFInternetIndicator)
 
-![](https://giphy.com/gifs/3Pumvj8kXlsze)
+![](https://media.giphy.com/media/3Pumvj8kXlsze/giphy.gif)
 
 ## Example
 
