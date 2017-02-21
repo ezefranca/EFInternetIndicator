@@ -5,6 +5,8 @@
 [![License](https://img.shields.io/cocoapods/l/EFInternetIndicator.svg?style=flat)](http://cocoapods.org/pods/EFInternetIndicator)
 [![Platform](https://img.shields.io/cocoapods/p/EFInternetIndicator.svg?style=flat)](http://cocoapods.org/pods/EFInternetIndicator)
 
+![](https://giphy.com/gifs/3Pumvj8kXlsze)
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
