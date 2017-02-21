@@ -24,7 +24,7 @@ pod "EFInternetIndicator"
 
 ## Author
 
-ezefranca, ezequiel.santos@btgpactual.com
+ezefranca, ezequiel.ifsp@gmail.com
 
 ## License
 
