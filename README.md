@@ -10,7 +10,7 @@
 ## Requirements
 
 - watchOS 3.0+
-- Xcode 8.0+
+- iOS 8.0+
 
 ## Installation
 
