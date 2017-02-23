@@ -53,6 +53,42 @@ Also, you can customize indicator using custom parameters:
 func startMonitoringInternet(backgroundColor: UIColor , message: String, remoteHostName: String)
 ```
 
+If you want all yours UIViewControllers monitoring internet you can create a abstract class like:
+
+```swift
+
+import UIKit
+import EFInternetIndicator
+
+class EFViewController: UIViewController, InternetStatusIndicable {
+    
+    var internetConnectionIndicator:InternetViewIndicator?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.startMonitoringInternet()
+    }
+}
+
+class SecondViewController: EFViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }   
+}
+
+// Override properties when you want 
+class MagicViewController: EFViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.startMonitoringInternet(backgroundColor: UIColor.blue , message: "You don't have magic", remoteHostName: "magic.com")
+    }   
+}
+
+
+```
+
 ## Author
 
 ezefranca, ezequiel.ifsp@gmail.com
