@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/EFInternetIndicator.svg?style=flat)](http://cocoapods.org/pods/EFInternetIndicator)
 [![Platform](https://img.shields.io/cocoapods/p/EFInternetIndicator.svg?style=flat)](http://cocoapods.org/pods/EFInternetIndicator)
 
-![](https://media.giphy.com/media/3Pumvj8kXlsze/giphy.gif)
+![](https://media.giphy.com/media/3Pumvj8kXlsze/giphy.gif)![](https://media.giphy.com/media/hbZFtkGO3oXTi/giphy.gif)![](https://media.giphy.com/media/bqSwgtKgJD1uw/giphy.gif)
 
 ## Requirements
 
@@ -50,7 +50,7 @@ class ViewController: UIViewController, InternetStatusIndicable {
 Also, you can customize indicator using custom parameters: 
 
 ```swift
-func startMonitoringInternet(backgroundColor: UIColor , message: String, remoteHostName: String)
+func startMonitoringInternet(backgroundColor:UIColor, style: MessageView.Layout, textColor:UIColor, message:String, remoteHostName: String)
 ```
 
 If you want all yours UIViewControllers monitoring internet you can create a abstract class like:
