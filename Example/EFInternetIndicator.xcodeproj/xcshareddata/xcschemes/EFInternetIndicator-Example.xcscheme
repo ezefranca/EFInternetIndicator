@@ -23,8 +23,8 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
@@ -49,6 +49,16 @@
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
                BuildableName = "EFInternetIndicator_Tests.xctest"
                BlueprintName = "EFInternetIndicator_Tests"
+               ReferencedContainer = "container:EFInternetIndicator.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8B01114C1E60D54F00A1B41C"
+               BuildableName = "EFInternetIndicator_ExampleUITests.xctest"
+               BlueprintName = "EFInternetIndicator_ExampleUITests"
                ReferencedContainer = "container:EFInternetIndicator.xcodeproj">
             </BuildableReference>
          </TestableReference>
