@@ -13,26 +13,22 @@ public class InternetViewIndicator {
     private var reachability: Reachability?
     private var status:MessageView
     
-    init(backgroundColor:UIColor = UIColor.red, style: MessageView.Layout = .StatusLine, textColor:UIColor = UIColor.white, message:String = "Please, check your internet connection", iconEmoji:String = "❌", remoteHostName: String = "apple.com") {
-        
-        status = MessageView.viewFromNib(layout: style)
-        self.initializer(backgroundColor: backgroundColor, style: style, textColor: textColor, message: message, iconEmoji: iconEmoji, remoteHostName: remoteHostName, hideButton: true)
-    }
-    
-    
-    
     init(backgroundColor:UIColor = UIColor.red, style: MessageView.Layout = .StatusLine, textColor:UIColor = UIColor.white, message:String = "Please, check your internet connection", remoteHostName: String = "apple.com") {
         
         status = MessageView.viewFromNib(layout: style)
-        self.initializer(backgroundColor: backgroundColor, style: style, textColor: textColor, message: message, iconEmoji: "", remoteHostName: remoteHostName, hideButton: true)
+        self.initializer(backgroundColor: backgroundColor, style: style, textColor: textColor, message: message, remoteHostName: remoteHostName, hideButton: true)
     }
     
-    private func initializer(backgroundColor:UIColor = UIColor.red, style: MessageView.Layout = .StatusLine, textColor:UIColor = UIColor.white, message:String = "Please, check your internet connection", iconEmoji:String = "\u{1F34E}", remoteHostName: String = "apple.com", hideButton:Bool = true) {
+    
+    private func initializer(backgroundColor:UIColor = UIColor.red, style: MessageView.Layout = .StatusLine, textColor:UIColor = UIColor.white, message:String = "Please, check your internet connection", remoteHostName: String = "apple.com", hideButton:Bool = true) {
         
         status.button?.isHidden = hideButton
+        status.iconLabel?.text = "❌"
+        //TO DO: Refactor and make this parameters
+        status.iconImageView?.isHidden = true
+        status.titleLabel?.isHidden = true
         status.backgroundView.backgroundColor = backgroundColor
         status.bodyLabel?.textColor = textColor
-        status.iconLabel?.text = iconEmoji
         status.configureContent(body: NSLocalizedString(message, comment: "internet failure"))
         
         self.setupReachability(remoteHostName)
