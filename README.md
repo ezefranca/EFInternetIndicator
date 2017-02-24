@@ -82,7 +82,7 @@ class MagicViewController: EFViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.startMonitoringInternet(backgroundColor: UIColor.blue , message: "You don't have magic", remoteHostName: "magic.com")
+        self.startMonitoringInternet(backgroundColor:UIColor.blue, style: .StatusLine, textColor:UIColor.white, message:"No magic on internet here :(", remoteHostName: "magic.com")
     }   
 }
 
