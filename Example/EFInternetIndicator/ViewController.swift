@@ -15,7 +15,8 @@ class ViewController: UIViewController, InternetStatusIndicable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.startMonitoringInternet()
+        //self.startMonitoringInternet()
+        self.startMonitoringInternet(backgroundColor: UIColor.black, style: .MessageView, textColor: UIColor.white, message: "Please, check your internet connection", remoteHostName: "apple.com")
     }
 }
 

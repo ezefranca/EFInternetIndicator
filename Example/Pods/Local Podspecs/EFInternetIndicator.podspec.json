@@ -1,15 +1,16 @@
 {
   "name": "EFInternetIndicator",
   "version": "0.1.0",
-  "summary": "A short description of EFInternetIndicator.",
-  "description": "TODO: Add long description of the pod here.",
+  "summary": "A little Internet status indicator.",
+  "description": "A little swift Internet error status indicator using ReachabilitySwift.",
   "homepage": "https://github.com/ezefranca/EFInternetIndicator",
+  "screenshots": "https://media.giphy.com/media/3Pumvj8kXlsze/giphy.gif",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "ezefranca": "ezequiel.santos@btgpactual.com"
+    "ezefranca": "ezequiel.ifsp@gmail.com"
   },
   "source": {
     "git": "https://github.com/ezefranca/EFInternetIndicator.git",

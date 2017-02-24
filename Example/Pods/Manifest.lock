@@ -14,10 +14,10 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   EFInternetIndicator:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
-  EFInternetIndicator: f56df76a50e4684a9593dc69df51f24dcbbd2d3c
+  EFInternetIndicator: 3aa7c9af82984ada71db2692489fb6ca92cfe226
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
   SwiftMessages: bb85d7c30e85256f9367214b0907e1f409e1870a
 
