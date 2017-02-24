@@ -36,7 +36,7 @@ A little swift Internet error status indicator using ReachabilitySwift.
   #   'EFInternetIndicator' => ['EFInternetIndicator/Assets/*.png']
   #}
 
-  s.public_header_files = 'EFInternetIndicator/Classes/**/*.h'
+  #s.public_header_files = 'EFInternetIndicator/Classes/**/*.h'
   s.source_files = 'EFInternetIndicator/Classes/**/*.{c,h,hh,m,mm,swift}'
   s.subspec 'Network' do |network|
   	network.dependency 'ReachabilitySwift'
