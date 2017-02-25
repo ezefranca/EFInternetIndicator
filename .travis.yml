@@ -10,5 +10,5 @@ branches:
     - auth
 script:
 - set -o pipefail
-- set -o pipefail && xcodebuild test -workspace Example/EFInternetIndicator.xcworkspace -scheme EFInternetIndicator-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
+- set -o pipefail && xcodebuild -workspace Example/EFInternetIndicator.xcworkspace -scheme EFInternetIndicator-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
 - pod lib lint --quick
