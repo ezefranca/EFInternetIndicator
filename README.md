@@ -93,6 +93,12 @@ class MagicViewController: EFViewController {
 
 ezefranca, ezequiel.ifsp@gmail.com
 
+## Acknowledgments
+
+- [@SwiftKickMobile](https://github.com/SwiftKickMobile) for SwiftMessages;
+- [@ashleymills](https://github.com/ashleymills) for Reachability.swift;
+
+
 ## License
 
 EFInternetIndicator is available under the MIT license. See the LICENSE file for more info.
