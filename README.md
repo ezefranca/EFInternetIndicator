@@ -12,6 +12,8 @@
 - Xcode 8.0+
 - iOS 8.3+
 
+**WARNING** : It's not work on simulator. [#1](https://github.com/ezefranca/EFInternetIndicator/issues/1)
+
 ## Installation
 
 #### CocoaPods
