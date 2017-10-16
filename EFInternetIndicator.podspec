@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'EFInternetIndicator'
-  s.version          = '0.2.0'
+  s.version          = '0.4.0'
   s.summary          = 'A little Internet status indicator.'
 
 # This description is used to generate tags and improve search results.
@@ -38,10 +38,6 @@ A little swift Internet error status indicator using ReachabilitySwift.
 
   #s.public_header_files = 'EFInternetIndicator/Classes/**/*.h'
   s.source_files = 'EFInternetIndicator/Classes/**/*.{c,h,hh,m,mm,swift}'
-  s.subspec 'Network' do |network|
-  	network.dependency 'ReachabilitySwift'
-  end
-
   s.subspec 'Interface' do |interface|
   	interface.dependency 'SwiftMessages'
   end

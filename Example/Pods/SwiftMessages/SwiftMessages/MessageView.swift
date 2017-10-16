@@ -10,7 +10,7 @@ import UIKit
 
 /*
  */
-open class MessageView: BaseView, Identifiable {
+open class MessageView: BaseView, Identifiable, AccessibleMessage {
     
     /*
      MARK: - Button tap handler
@@ -20,10 +20,23 @@ open class MessageView: BaseView, Identifiable {
     /// configured to call this tap handler on `.TouchUpInside`.
     open var buttonTapHandler: ((_ button: UIButton) -> Void)?
     
-    func buttonTapped(_ button: UIButton) {
+    @objc func buttonTapped(_ button: UIButton) {
         buttonTapHandler?(button)
     }
-    
+
+    /*
+     MARK: - Touch handling
+     */
+
+    open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        // Only accept touches within the background view. Anything outside of the
+        // background view's bounds should be transparent and does not need to receive
+        // touches. This helps with tap dismissal when using `DimMode.gray` and `DimMode.color`.
+        return backgroundView == self
+            ? super.point(inside: point, with: event)
+            : backgroundView.point(inside: convert(point, to: backgroundView), with: event)
+    }
+
     /*
      MARK: - IB outlets
      */
@@ -60,7 +73,7 @@ open class MessageView: BaseView, Identifiable {
     
     open var id: String {
         get {
-            return customId ?? "MessageView:title=\(titleLabel?.text), body=\(bodyLabel?.text)"
+            return customId ?? "MessageView:title=\(String(describing: titleLabel?.text)), body=\(String(describing: bodyLabel?.text))"
         }
         set {
             customId = newValue
@@ -68,6 +81,45 @@ open class MessageView: BaseView, Identifiable {
     }
     
     private var customId: String?
+
+    /*
+     MARK: - AccessibleMessage
+     */
+
+    /**
+     An optional prefix for the `accessibilityMessage` that can
+     be used to futher clarify the message for VoiceOver. For example, 
+     the view's background color or icon might convey that a message is
+     a warning, in which case one may specify the value "warning".
+     */
+    private var accessibilityPrefix: String?
+
+    open var accessibilityMessage: String? {
+        let components = [accessibilityPrefix, titleLabel?.text, bodyLabel?.text].flatMap { $0 }
+        guard components.count > 0 else { return nil }
+        return components.joined(separator: ", ")
+    }
+
+    public var accessibilityElement: NSObject? {
+        return backgroundView
+    }
+
+    open var additonalAccessibilityElements: [NSObject]? {
+        var elements: [NSObject] = []
+        func getAccessibleSubviews(view: UIView) {
+            for subview in view.subviews {
+                if subview.isAccessibilityElement {
+                    elements.append(subview)
+                } else {
+                    // Only doing this for non-accessible `subviews`, which avoids
+                    // including button labels, etc.
+                    getAccessibleSubviews(view: subview)
+                }
+            }
+        }
+        getAccessibleSubviews(view: self.backgroundView)
+        return elements
+    }
 }
 
 /*
@@ -92,30 +144,36 @@ extension MessageView {
          The standard message view that stretches across the full width of the
          container view.
          */
-        case MessageView = "MessageView"
+        case messageView = "MessageView"
         
         /**
          A floating card-style view with rounded corners.
          */
-        case CardView = "CardView"
+        case cardView = "CardView"
 
         /**
          Like `CardView` with one end attached to the super view.
          */
-        case TabView = "TabView"
+        case tabView = "TabView"
 
         /**
          A 20pt tall view that can be used to overlay the status bar.
          Note that this layout will automatically grow taller if displayed
          directly under the status bar (see the `ContentInsetting` protocol).
          */
-        case StatusLine = "StatusLine"
-        
+        case statusLine = "StatusLine"
+
+        /**
+         A floating card-style view with elements centered and arranged vertically.
+         This view is typically used with `.center` presentation style.         
+         */
+        case centeredView = "CenteredView"
+
         /**
          A standard message view like `MessageView`, but without
          stack views for iOS 8.
          */
-        case MessageViewIOS8 = "MessageViewIOS8"
+        case messageViewIOS8 = "MessageViewIOS8"
     }
     
     /**
@@ -169,6 +227,7 @@ extension MessageView {
         views.forEach {
             let constraints = [$0.heightAnchor.constraint(equalToConstant: size.height),
                                $0.widthAnchor.constraint(equalToConstant: size.width)]
+            constraints.forEach { $0.priority = UILayoutPriority(999.0) }
             $0.addConstraints(constraints)
             if let contentMode = contentMode {
                 $0.contentMode = contentMode
@@ -332,3 +391,36 @@ extension MessageView {
         iconLabel?.isHidden = iconLabel?.text == nil
     }
 }
+
+/*
+ MARK: - Configuring the width
+ 
+ This extension provides a few convenience functions for configuring the
+ background view's width. You are encouraged to write your own such functions
+ if these don't exactly meet your needs.
+ */
+
+extension MessageView {
+
+    /**
+     A shortcut for configuring the left and right layout margins. For views that
+     have `backgroundView` as a subview of `MessageView`, the background view should
+     be pinned to the left and right `layoutMargins` in order for this configuration to work.
+    */
+    public func configureBackgroundView(sideMargin: CGFloat) {
+        layoutMargins.left = sideMargin
+        layoutMargins.right = sideMargin
+    }
+
+    /**
+     A shortcut for adding a width constraint to the `backgroundView`. When calling this
+     method, it is important to ensure that the width constraint doesn't conflict with
+     other constraints. The CardView.nib and TabView.nib layouts are compatible with
+     this method.
+     */
+    public func configureBackgroundView(width: CGFloat) {
+        let constraint = NSLayoutConstraint(item: backgroundView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: width)
+        backgroundView.addConstraint(constraint)
+    }
+}
+

@@ -1,5 +1,4 @@
 import Foundation
-import ReachabilitySwift
 import SwiftMessages
 
 extension String {
@@ -10,7 +9,7 @@ extension String {
 
 public class InternetViewIndicator {
     
-    private var reachability: Reachability?
+    private var _reachability: Reachability?
     private var status:MessageView
     
     init(backgroundColor:UIColor = UIColor.red, style: MessageView.Layout = .statusLine, textColor:UIColor = UIColor.white, message:String = "Please, check your internet connection", remoteHostName: String = "apple.com") {
@@ -42,8 +41,8 @@ public class InternetViewIndicator {
     func setupReachability(_ hostName: String?) {
         
         let reachability = hostName == nil ? Reachability() : Reachability(hostname: hostName!)
-        self.reachability = reachability
-        NotificationCenter.default.addObserver(self, selector: #selector(InternetViewIndicator.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: reachability)
+        self._reachability = reachability
+        NotificationCenter.default.addObserver(self, selector: #selector(InternetViewIndicator.reachabilityChanged(_:)), name: NSNotification.Name.reachabilityChanged, object: reachability)
     
     }
     
@@ -55,20 +54,25 @@ public class InternetViewIndicator {
         statusConfig.duration = .forever
         statusConfig.presentationContext = .window(windowLevel: UIWindowLevelStatusBar)
         
-        if reachability.isReachable {
+        if reachability.connection != .none {
             SwiftMessages.hide()
         } else {
             SwiftMessages.show(config: statusConfig, view: status)
-        
         }
     }
     
     func startNotifier() {
         do {
-            try reachability?.startNotifier()
+            try _reachability?.startNotifier()
         } catch {
             return
         }
+    }
+    
+    func stopNotifier() {
+        _reachability?.stopNotifier()
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: nil)
+        _reachability = nil
     }
     
 }
