@@ -3,12 +3,17 @@
 # * https://github.com/supermarin/xcpretty#usage
 
 language: objective-c
-osx_image: xcode8.0
-# blacklist
+osx_image: xcode9.2
+
 branches:
-  except:
-    - auth
+  only:
+    - master
+env:
+  - LC_CTYPE=en_US.UTF-8 LANG=en_US.UTF-8
+before_install:
+  - rvm install ruby-2.2.2
+  - gem install cocoapods
+  - gem install xcpretty -N
+  - brew update
 script:
-- set -o pipefail
-- xcodebuild -workspace Example/EFInternetIndicator.xcworkspace -scheme EFInternetIndicator-Example -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty
-- pod lib lint --quick --allow-warnings
+  - xcodebuild -workspace Example/EFInternetIndicator.xcworkspace -scheme EFInternetIndicator-Example -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
