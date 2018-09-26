@@ -92,10 +92,14 @@ open class MessageView: BaseView, Identifiable, AccessibleMessage {
      the view's background color or icon might convey that a message is
      a warning, in which case one may specify the value "warning".
      */
-    private var accessibilityPrefix: String?
+    open var accessibilityPrefix: String?
 
     open var accessibilityMessage: String? {
+        #if swift(>=4.1)
+        let components = [accessibilityPrefix, titleLabel?.text, bodyLabel?.text].compactMap { $0 }
+        #else
         let components = [accessibilityPrefix, titleLabel?.text, bodyLabel?.text].flatMap { $0 }
+        #endif
         guard components.count > 0 else { return nil }
         return components.joined(separator: ", ")
     }
@@ -168,12 +172,6 @@ extension MessageView {
          This view is typically used with `.center` presentation style.         
          */
         case centeredView = "CenteredView"
-
-        /**
-         A standard message view like `MessageView`, but without
-         stack views for iOS 8.
-         */
-        case messageViewIOS8 = "MessageViewIOS8"
     }
     
     /**
@@ -212,7 +210,6 @@ extension MessageView {
  */
 
 extension MessageView {
-    @available(iOS 9, *)
     /**
      Constrains the image view to a specified size. By default, the size of the
      image view is determined by its `intrinsicContentSize`.

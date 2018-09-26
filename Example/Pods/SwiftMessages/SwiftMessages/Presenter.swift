@@ -37,7 +37,7 @@ class Presenter: NSObject {
         }
     }
     
-    let config: SwiftMessages.Config
+    var config: SwiftMessages.Config
     let view: UIView
     weak var delegate: PresenterDelegate?
     lazy var maskingView: MaskingView = { return MaskingView() }()
@@ -65,7 +65,7 @@ class Presenter: NSObject {
         case .bottom:
             return TopBottomAnimation(style: .bottom, delegate: delegate)
         case .center:
-            return CenterAnimation(delegate: delegate)
+            return PhysicsAnimation(delegate: delegate)
         case .custom(let animator):
             animator.delegate = delegate
             return animator
@@ -219,12 +219,12 @@ class Presenter: NSObject {
 
     private func safeZoneConflicts() -> SafeZoneConflicts {
         guard let window = maskingView.window else { return [] }
-        let inNormalWindowLevel: Bool = {
+        let windowLevel: UIWindowLevel = {
             if let vc = presentationContext.viewControllerValue() as? WindowViewController {
-                return vc.windowLevel == UIWindowLevelNormal
+                return vc.windowLevel
             }
-            return true
-        } ()
+            return UIWindowLevelNormal
+        }()
         // TODO `underNavigationBar` and `underTabBar` should look up the presentation context's hierarchy
         // TODO for cases where both should be true (probably not an issue for typical height messages, though).
         let underNavigationBar: Bool = {
@@ -236,15 +236,24 @@ class Presenter: NSObject {
             return false
         }()
         if #available(iOS 11, *) {
-            if !inNormalWindowLevel {
+            if windowLevel > UIWindowLevelNormal {
                 // TODO seeing `maskingView.safeAreaInsets.top` value of 20 on
-                // iPhone 8 with status bar window level, which doesn't seem right
-                // since the status bar is covered by the window. Applying a special rule
+                // iPhone 8 with status bar window level. This seems like an iOS bug since
+                // the message view's window is above the status bar. Applying a special rule
                 // to allow the animator to revove this amount from the layout margins if needed.
-                if maskingView.safeAreaInsets.top <= 20 {
-                    return [.coveredStatusBar]
+                // This may need to be reworked if any future device has a legitimate 20pt top safe area,
+                // such as with a potentially smaller notch.
+                if maskingView.safeAreaInsets.top == 20 {
+                    return [.overStatusBar]
                 } else {
-                    return [.sensorNotch, .homeIndicator]
+                    var conflicts: SafeZoneConflicts = []
+                    if maskingView.safeAreaInsets.top > 0 {
+                        conflicts.formUnion(.sensorNotch)
+                    }
+                    if maskingView.safeAreaInsets.bottom > 0 {
+                        conflicts.formUnion(.homeIndicator)
+                    }
+                    return conflicts
                 }
             }
             var conflicts: SafeZoneConflicts = []
@@ -256,30 +265,38 @@ class Presenter: NSObject {
             }
             return conflicts
         } else {
+            #if SWIFTMESSAGES_APP_EXTENSIONS
+            return []
+            #else
             if UIApplication.shared.isStatusBarHidden { return [] }
-            if !inNormalWindowLevel || underNavigationBar { return [] }
+            if (windowLevel > UIWindowLevelNormal) || underNavigationBar { return [] }
             let statusBarFrame = UIApplication.shared.statusBarFrame
             let statusBarWindowFrame = window.convert(statusBarFrame, from: nil)
             let statusBarViewFrame = maskingView.convert(statusBarWindowFrame, from: nil)
             return statusBarViewFrame.intersects(maskingView.bounds) ? SafeZoneConflicts.statusBar : []
+            #endif
         }
     }
 
     private func getPresentationContext() throws -> PresentationContext {
 
         func newWindowViewController(_ windowLevel: UIWindowLevel) -> UIViewController {
-            let viewController = WindowViewController(windowLevel: windowLevel, config: config)
+            let viewController = WindowViewController.newInstance(windowLevel: windowLevel, config: config)
             return viewController
         }
 
         switch config.presentationContext {
         case .automatic:
+            #if SWIFTMESSAGES_APP_EXTENSIONS
+            throw SwiftMessagesError.noRootViewController
+            #else
             if let rootViewController = UIApplication.shared.keyWindow?.rootViewController {
                 let viewController = rootViewController.sm_selectPresentationContextTopDown(config)
                 return .viewController(Weak(value: viewController))
             } else {
                 throw SwiftMessagesError.noRootViewController
             }
+            #endif
         case .window(let level):
             let viewController = newWindowViewController(level)
             return .viewController(Weak(value: viewController))
@@ -320,11 +337,10 @@ class Presenter: NSObject {
             } else {
                 containerView.addSubview(maskingView)
             }
-            let leading = NSLayoutConstraint(item: maskingView, attribute: .leading, relatedBy: .equal, toItem: containerView, attribute: .leading, multiplier: 1.00, constant: 0.0)
-            let trailing = NSLayoutConstraint(item: maskingView, attribute: .trailing, relatedBy: .equal, toItem: containerView, attribute: .trailing, multiplier: 1.00, constant: 0.0)
-            let top = topLayoutConstraint(view: maskingView, containerView: containerView, viewController: presentationContext.viewControllerValue())
-            let bottom = bottomLayoutConstraint(view: maskingView, containerView: containerView, viewController: presentationContext.viewControllerValue())
-            containerView.addConstraints([top, leading, bottom, trailing])
+            maskingView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+            maskingView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+            topLayoutConstraint(view: maskingView, containerView: containerView, viewController: presentationContext.viewControllerValue()).isActive = true
+            bottomLayoutConstraint(view: maskingView, containerView: containerView, viewController: presentationContext.viewControllerValue()).isActive = true
             // Update the container view's layout in order to know the masking view's frame
             containerView.layoutIfNeeded()
         }

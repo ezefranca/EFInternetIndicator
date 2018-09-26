@@ -1,6 +1,6 @@
 {
   "name": "EFInternetIndicator",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "summary": "A little Internet status indicator.",
   "description": "A little swift Internet error status indicator using ReachabilitySwift.",
   "homepage": "https://github.com/ezefranca/EFInternetIndicator",
@@ -14,21 +14,16 @@
   },
   "source": {
     "git": "https://github.com/ezefranca/EFInternetIndicator.git",
-    "tag": "0.4.0"
+    "tag": "0.5.0"
   },
   "social_media_url": "https://twitter.com/ezefranca",
   "platforms": {
     "ios": "9.0"
   },
   "source_files": "EFInternetIndicator/Classes/**/*.{c,h,hh,m,mm,swift}",
-  "subspecs": [
-    {
-      "name": "Interface",
-      "dependencies": {
-        "SwiftMessages": [
-
-        ]
-      }
-    }
-  ]
+  "dependencies": {
+    "SwiftMessages": [
+      "~> 5.0.1"
+    ]
+  }
 }
