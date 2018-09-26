@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 s.name             = 'EFInternetIndicator'
-s.version          = '0.5.0'
+s.version          = '0.0.5'
 s.summary          = 'A little Internet status indicator.'
 
 # This description is used to generate tags and improve search results.
