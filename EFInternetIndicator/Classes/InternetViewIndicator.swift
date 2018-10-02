@@ -43,7 +43,7 @@ public class InternetViewIndicator {
         let reachability = hostName == nil ? Reachability() : Reachability(hostname: hostName!)
         self._reachability = reachability
         NotificationCenter.default.addObserver(self, selector: #selector(InternetViewIndicator.reachabilityChanged(_:)), name: NSNotification.Name.reachabilityChanged, object: reachability)
-    
+        
     }
     
     @objc func reachabilityChanged(_ note: Notification) {
@@ -52,7 +52,12 @@ public class InternetViewIndicator {
         
         var statusConfig = SwiftMessages.defaultConfig
         statusConfig.duration = .forever
+        #if swift(>=4.2)
+        statusConfig.presentationContext = .window(windowLevel: UIWindow.Level.statusBar.rawValue)
+        #else
         statusConfig.presentationContext = .window(windowLevel: UIWindowLevelStatusBar)
+        #endif
+        
         
         if reachability.connection != .none {
             SwiftMessages.hide()
@@ -76,3 +81,4 @@ public class InternetViewIndicator {
     }
     
 }
+
